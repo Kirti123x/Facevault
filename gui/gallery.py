@@ -2,7 +2,8 @@ from PyQt6.QtWidgets import (
     QWidget,
     QLabel,
     QVBoxLayout,
-    QGridLayout
+    QGridLayout,
+    QScrollArea
 )
 
 from gui.widgets import PersonCard
@@ -34,10 +35,21 @@ class GalleryPage(QWidget):
 
         layout.addWidget(title)
 
-        self.grid = QGridLayout()
+        # =====================
+        # Scrollable grid area
+        # =====================
+
+        self.grid_container = QWidget()
+
+        self.grid = QGridLayout(self.grid_container)
         self.grid.setSpacing(20)
 
-        layout.addLayout(self.grid)
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(self.grid_container)
+        scroll_area.setFrameShape(QScrollArea.Shape.NoFrame)
+
+        layout.addWidget(scroll_area)
 
         self.load_people()
 
@@ -57,6 +69,8 @@ class GalleryPage(QWidget):
         self.clear_grid()
 
         people = self.database.get_people()
+
+        print(f"Loaded {len(people)} people into gallery.")
 
         row = 0
         col = 0
@@ -94,6 +108,8 @@ class GalleryPage(QWidget):
                 row += 1
 
     def open_person(self, name):
+
+        print(f"Opening photo gallery for: {name}")
 
         self.person_window = PersonGallery(name)
         self.person_window.show()
