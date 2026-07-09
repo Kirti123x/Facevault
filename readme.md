@@ -1,4 +1,4 @@
-# FaceVault 🔐📸
+# FaceVault 
 ## Offline AI-Powered Photo Organizer
 
 FaceVault is an **offline desktop application** that automatically organizes your photo collection by detecting, recognizing, and grouping people using Artificial Intelligence.
