@@ -1,4 +1,5 @@
 import sys
+import traceback
 from PyQt6.QtWidgets import QApplication
 
 from gui.home import HomeWindow
@@ -16,4 +17,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        traceback.print_exc()
+        input("Press Enter to exit...")
