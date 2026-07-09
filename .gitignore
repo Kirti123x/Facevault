@@ -1,11 +1,17 @@
-.venv/
+# Python cache
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 
-facevault.db
-thumbnails/
+# Virtual environments
+.venv/
+venv/
+env/
 
+# IDE
 .vscode/
 .idea/
 
-*.log
+# OS
+.DS_Store
+Thumbs.db

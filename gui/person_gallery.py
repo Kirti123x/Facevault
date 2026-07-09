@@ -4,7 +4,8 @@ from PyQt6.QtWidgets import (
     QWidget,
     QLabel,
     QVBoxLayout,
-    QGridLayout
+    QGridLayout,
+    QScrollArea
 )
 
 from PyQt6.QtCore import Qt
@@ -39,10 +40,21 @@ class PersonGallery(QWidget):
 
         layout.addWidget(title)
 
-        self.grid = QGridLayout()
+        # =====================
+        # Scrollable grid area
+        # =====================
+
+        self.grid_container = QWidget()
+
+        self.grid = QGridLayout(self.grid_container)
         self.grid.setSpacing(15)
 
-        layout.addLayout(self.grid)
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(self.grid_container)
+        scroll_area.setFrameShape(QScrollArea.Shape.NoFrame)
+
+        layout.addWidget(scroll_area)
 
         self.load_photos()
 
@@ -72,6 +84,10 @@ class PersonGallery(QWidget):
 
         photos = self.database.get_person_photos(
             person_id
+        )
+
+        print(
+            f"Loading {len(photos)} photo(s) for {self.person_name}."
         )
 
         row = 0

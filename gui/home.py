@@ -13,6 +13,7 @@ from PyQt6.QtWidgets import (
 
 from PyQt6.QtCore import Qt
 from gui.gallery import GalleryPage
+from gui.console import ConsoleWidget
 
 
 class HomeWindow(QMainWindow):
@@ -27,6 +28,14 @@ class HomeWindow(QMainWindow):
         self.setGeometry(200, 100, 1200, 700)
 
         self.init_ui()
+
+        # Redirect all print()/stdout/stderr output from anywhere in the
+        # app (including background indexing threads) into the console box.
+        self._stdout_redirector, self._stderr_redirector = (
+            self.console.attach_to_streams()
+        )
+
+        print("FaceVault started. Ready.")
 
     def init_ui(self):
 
@@ -95,6 +104,14 @@ class HomeWindow(QMainWindow):
 
         self.status = QLabel("Ready")
 
+        console_label = QLabel("Console Output")
+        console_label.setStyleSheet("""
+            font-size:16px;
+            font-weight:bold;
+        """)
+
+        self.console = ConsoleWidget()
+
         content_layout.addWidget(title)
         content_layout.addWidget(subtitle)
         content_layout.addSpacing(30)
@@ -104,7 +121,9 @@ class HomeWindow(QMainWindow):
         content_layout.addWidget(self.index_btn)
         content_layout.addWidget(self.progress)
         content_layout.addWidget(self.status)
-        content_layout.addStretch()
+        content_layout.addSpacing(20)
+        content_layout.addWidget(console_label)
+        content_layout.addWidget(self.console, stretch=1)
 
         main_layout.addWidget(sidebar)
         main_layout.addWidget(content)
@@ -124,6 +143,7 @@ class HomeWindow(QMainWindow):
             self.folder_path = folder
             self.folder_label.setText(folder)
             self.status.setText("Folder selected")
+            print(f"Selected folder: {folder}")
 
     # =====================
     # Start Indexing
@@ -144,6 +164,8 @@ class HomeWindow(QMainWindow):
         self.status.setText("Indexing images...")
 
         self.index_btn.setEnabled(False)
+
+        print(f"Starting indexing for folder: {self.folder_path}")
 
         from gui.Faceindexer import IndexWorker
 
@@ -170,6 +192,8 @@ class HomeWindow(QMainWindow):
         )
 
         self.index_btn.setEnabled(True)
+
+        print("Indexing finished successfully.")
 
         if self.gallery_window:
 
