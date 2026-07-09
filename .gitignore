@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+
+facevault.db
+thumbnails/
+
+.vscode/
+.idea/
+
+*.log
