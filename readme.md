@@ -132,17 +132,9 @@ cd FaceVault
 ### Windows
 
 ```bash
-python -m venv .venv
+python -m venv .venv          for(Linux/macOS) ->  python3 -m venv .venv
 
-.venv\Scripts\activate
-```
-
-### Linux/macOS
-
-```bash
-python3 -m venv .venv
-
-source .venv/bin/activate
+.venv\Scripts\activate        for(Linux/macOS) ->  source .venv/bin/activate
 ```
 
 ---
